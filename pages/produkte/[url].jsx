@@ -1,5 +1,10 @@
 import { useRouter } from "next/router";
 import jsondb from "@/jsondb/produkte";
+import Link from "next/link";
+import Image from "next/image";
+import { Row, Col } from "react-bootstrap";
+
+import { ListGroup } from "react-bootstrap";
 
 export default function Produktseite() {
   const router = useRouter();
@@ -19,10 +24,26 @@ export default function Produktseite() {
 
   return (
     <>
-      <div className="mt-3">
-        <h1>{produkt.name}</h1>
-        <div></div>
+      <div>
+        <Link href={"/"} className="text-dark none">
+          ← zurück zur Übersicht
+        </Link>
       </div>
+      <Row className="mt-5">
+        <Col sm>
+          <Image
+            className="rounded-3"
+            src={produkt.picture}
+            alt="{produkt.name}"
+            width={600}
+            height={600}
+            layout="responsive"
+          />
+        </Col>
+        <Col sm>
+          <h1>hallo</h1>
+        </Col>
+      </Row>
     </>
   );
 }
