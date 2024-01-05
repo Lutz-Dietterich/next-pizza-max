@@ -1,0 +1,78 @@
+const jsondb = {
+  produkte: [
+    {
+      name: "Crispy Burger",
+      description: "amirican style burger",
+      category: "Hauptgericht",
+      price: 6.99,
+      url: "burger",
+      picture: "/img/products/burger.jpg",
+    },
+    {
+      name: "Cola",
+      description: "Original Coke",
+      category: "Getränke",
+      price: 1.99,
+      url: "cola",
+      picture: "/img/products/cola.jpg",
+    },
+    {
+      name: "Eis",
+      description: "Leckeres vanille Eis",
+      category: "Nachspeise",
+      price: 3.99,
+      url: "eis",
+      picture: "/img/products/eis.jpg",
+    },
+    {
+      name: "Falaffel",
+      description: "Veggie finger Food",
+      category: "Snack",
+      price: 16.99,
+      url: "falaffel",
+      picture: "/img/products/falaffel.jpg",
+    },
+    {
+      name: "Lahmacun",
+      description: "Türkische Pizza",
+      category: "Hauptgericht",
+      price: 8.99,
+      url: "lahmacun",
+      picture: "/img/products/lahmacun.jpg",
+    },
+    {
+      name: "Pizza",
+      description: "Runde Italienische Pizza",
+      category: "Hauptgericht",
+      price: 62.99,
+      url: "pizza",
+      picture: "/img/products/pizza.jpg",
+    },
+    {
+      name: "Lasagne",
+      description: "Italienischer Flachnudel Auflauf",
+      category: "Hauptgericht",
+      price: 6.99,
+      url: "lasagne",
+      picture: "/img/products/lasagne.jpg",
+    },
+    {
+      name: "Muffin",
+      description: "amirican style CupCake",
+      category: "Nachspeise",
+      price: 6.99,
+      url: "muffin",
+      picture: "/img/products/muffin.jpg",
+    },
+    {
+      name: "Pommes",
+      description: "Streifen von Äpfel aus der Erde",
+      category: "Snacks",
+      price: 9.99,
+      url: "pommes",
+      picture: "/img/products/pommes.jpg",
+    },
+  ],
+};
+
+export default jsondb;
