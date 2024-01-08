@@ -19,11 +19,9 @@ async function dbConnect() {
     console.log("DB Verbindung aktiv");
     return cached.con;
   }
-  if (cached.promise) {
+  if (!cached.promise) {
     const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      bufferCommand: false,
+      bufferCommands: false,
     };
     cached.promise = mongoose.connect(MONGODB_URI, options).then((mongoose) => {
       console.log("DB Verbindung gestartet");
@@ -34,10 +32,10 @@ async function dbConnect() {
   return cached.con;
 }
 
-async function dbDisconnect() {
-  await mongoose.disconnect();
-  console.log("DB Verbindung beendet");
-}
+// async function dbDisconnect() {
+//   await mongoose.disconnect();
+//   console.log("DB Verbindung beendet");
+// }
 
-const mongodb = { dbConnect, dbDisconnect };
+const mongodb = { dbConnect };
 export default mongodb;
