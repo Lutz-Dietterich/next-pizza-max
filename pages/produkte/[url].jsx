@@ -3,8 +3,22 @@ import Image from "next/image";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import mongodb from "@/utils/mongodb";
 import Produkt from "@/models/Produkt";
+import { use, useState } from "react";
 
 export default function Produktseite({ produkt }) {
+  const [preis, setPreis] = useState(produkt?.price);
+  const [extras, setExtras] = useState([]);
+
+  const addExtra = (e, extra) => {
+    console.log(e.target);
+    const checked = e.target.checked;
+    if (checked) {
+      setPreis(preis + extra.price);
+    } else {
+      setPreis(preis - extra.price);
+    }
+  };
+
   if (!produkt) {
     return (
       <>
@@ -37,15 +51,20 @@ export default function Produktseite({ produkt }) {
           <h1 className="ms-3 mb-5">{produkt.name}</h1>
           <ListGroup variant="flush">
             <ListGroupItem>
-              <h2 className="text-danger">{produkt.price} €</h2>
+              <h2 className="text-danger">{preis.toFixed(2)} €</h2>
             </ListGroupItem>
             <ListGroupItem>{produkt.description}</ListGroupItem>
             <ListGroupItem className="mt-2">
               {produkt.extras.length ? "Extras: " : <p></p>} <br />
               {produkt.extras.map((extra) => (
-                <span key={extra.name}>
+                <span key={extra._id}>
                   {extra.text}
-                  <input className="form-check-input mx-2" type="checkbox" />
+                  <input
+                    className="form-check-input mx-2"
+                    type="checkbox"
+                    id="extra.text"
+                    onChange={(e) => addExtra(e, extra)}
+                  />
                 </span>
               ))}
             </ListGroupItem>
