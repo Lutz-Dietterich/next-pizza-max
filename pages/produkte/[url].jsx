@@ -3,21 +3,26 @@ import Image from "next/image";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import mongodb from "@/utils/mongodb";
 import Produkt from "@/models/Produkt";
-import { use, useState } from "react";
+import { useState } from "react";
 
 export default function Produktseite({ produkt }) {
   const [preis, setPreis] = useState(produkt?.price);
   const [extras, setExtras] = useState([]);
+  const [menge, setMenge] = useState(1);
 
   const addExtra = (e, extra) => {
     console.log(e.target);
     const checked = e.target.checked;
     if (checked) {
       setPreis(preis + extra.price);
+      setExtras([...extras, extra]);
     } else {
       setPreis(preis - extra.price);
+      setExtras(extras.filter((alleExtras) => alleExtras._id !== extra._id));
     }
   };
+
+  console.log(menge);
 
   if (!produkt) {
     return (
@@ -72,7 +77,10 @@ export default function Produktseite({ produkt }) {
               <input
                 className="form-control w-50"
                 type="number"
-                placeholder="1"
+                value={menge}
+                min={1}
+                max={100}
+                onChange={(e) => setMenge(e.target.value)}
               ></input>
             </ListGroupItem>
             <ListGroupItem>
