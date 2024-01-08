@@ -1,13 +1,12 @@
-import jsondb from "@/jsondb/produkte";
 import { Card, Button } from "react-bootstrap";
 import Link from "next/link";
 import styled from "styled-components";
 
-export default function ProductList() {
+export default function ProductList({ produkte }) {
   return (
     <div>
       <div className=" row justify-content-center my-5">
-        {jsondb.produkte.map((produkt) => (
+        {produkte?.map((produkt) => (
           <div
             key={produkt.name}
             className="mt-3  col-12 col-md-6 col-lg-4 col-xl-3"

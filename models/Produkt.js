@@ -12,7 +12,7 @@ const ProduktSchema = new mongoose.Schema(
       required: true,
       maxlength: 250,
     },
-    categorie: {
+    category: {
       type: String,
       required: true,
       maxlength: 30,

@@ -10,11 +10,11 @@ const jsondb = {
       extras: [
         {
           text: "doppelt",
-          preis: 4,
+          price: 4,
         },
         {
           text: "extra scharf",
-          preis: 0.5,
+          price: 0.5,
         },
       ],
     },
@@ -28,7 +28,7 @@ const jsondb = {
       extras: [
         {
           text: "gekühlt",
-          preis: 0,
+          price: 0,
         },
       ],
     },
@@ -42,7 +42,7 @@ const jsondb = {
       extras: [
         {
           text: "extra Sahne",
-          preis: 1,
+          price: 1,
         },
       ],
     },
@@ -56,11 +56,11 @@ const jsondb = {
       extras: [
         {
           text: "Sesam Sauce",
-          preis: 1,
+          price: 1,
         },
         {
           text: "Cocktail Sauce",
-          preis: 1,
+          price: 1,
         },
       ],
     },
@@ -74,11 +74,11 @@ const jsondb = {
       extras: [
         {
           text: "doppelt Fleisch",
-          preis: 7,
+          price: 7,
         },
         {
           text: "extra scharf",
-          preis: 0.5,
+          price: 0.5,
         },
       ],
     },
@@ -92,11 +92,11 @@ const jsondb = {
       extras: [
         {
           text: "doppelt",
-          preis: 4,
+          price: 4,
         },
         {
           text: "extra Käse",
-          preis: 2,
+          price: 2,
         },
       ],
     },
@@ -110,11 +110,11 @@ const jsondb = {
       extras: [
         {
           text: "doppelt",
-          preis: 5,
+          price: 5,
         },
         {
           text: "extra Käse",
-          preis: 2,
+          price: 2,
         },
       ],
     },
@@ -136,11 +136,11 @@ const jsondb = {
       extras: [
         {
           text: "majo",
-          preis: 1,
+          price: 1,
         },
         {
           text: "ketchup",
-          preis: 1,
+          price: 1,
         },
       ],
     },

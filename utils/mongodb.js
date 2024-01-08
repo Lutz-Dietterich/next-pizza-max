@@ -32,10 +32,10 @@ async function dbConnect() {
   return cached.con;
 }
 
-// async function dbDisconnect() {
-//   await mongoose.disconnect();
-//   console.log("DB Verbindung beendet");
-// }
+async function dbDisconnect() {
+  await mongoose.disconnect();
+  console.log("DB Verbindung beendet");
+}
 
-const mongodb = { dbConnect };
+const mongodb = { dbConnect, dbDisconnect };
 export default mongodb;
