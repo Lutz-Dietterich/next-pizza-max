@@ -7,17 +7,17 @@ const ProduktSchema = new mongoose.Schema(
       required: true,
       maxlength: 50,
     },
-    beschreibung: {
+    description: {
       type: String,
       required: true,
       maxlength: 250,
     },
-    kategorie: {
+    categorie: {
       type: String,
       required: true,
       maxlength: 30,
     },
-    preis: {
+    price: {
       type: Number,
       required: true,
     },
@@ -27,7 +27,7 @@ const ProduktSchema = new mongoose.Schema(
       maxlength: 30,
       unique: true,
     },
-    bild: {
+    picture: {
       type: String,
       required: true,
     },
@@ -38,7 +38,7 @@ const ProduktSchema = new mongoose.Schema(
             type: String,
             required: true,
           },
-          preis: {
+          price: {
             type: Number,
             required: true,
           },
@@ -48,3 +48,6 @@ const ProduktSchema = new mongoose.Schema(
   }
   //   { timestamps: true }
 );
+
+export default mongoose.models.Produkt ||
+  mongoose.model("Produkt", ProduktSchema);
