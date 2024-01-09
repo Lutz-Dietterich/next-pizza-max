@@ -63,7 +63,7 @@ export default function Produktseite({ produkt }) {
               {produkt.extras.length ? "Extras: " : <p></p>} <br />
               {produkt.extras.map((extra) => (
                 <span key={extra._id}>
-                  {extra.text}
+                  {extra.text} {extra.price.toFixed(2)}€
                   <input
                     className="form-check-input mx-2"
                     type="checkbox"
