@@ -1,7 +1,26 @@
 import { Table, CloseButton, Button, Card } from "react-bootstrap";
 import Image from "next/image";
+import warenkorbStore from "@/zustand/warenkorbStore";
+import { useEffect } from "react";
 
 export default function Warenkorb() {
+  const { warenkorb, gesamtbetrag, berechneGesamtbetrag, removeFromCard } =
+    warenkorbStore((state) => ({
+      warenkorb: state.warenkorb,
+      gesamtbetrag: state.gesamtbetrag,
+      berechneGesamtbetrag: state.berechneGesamtbetrag,
+      removeFromCard: state.removeFromCard,
+    }));
+
+  useEffect(() => {
+    berechneGesamtbetrag();
+  }, [warenkorb, berechneGesamtbetrag]);
+
+  const handleRemove = () => {
+    removeFromCard();
+    berechneGesamtbetrag();
+  };
+
   return (
     <div className="mt-5">
       <h1 className="">Warenkorb</h1>
@@ -21,40 +40,44 @@ export default function Warenkorb() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <Image
-                    src={"/img/products/cola.jpg"}
-                    alt="cola"
-                    width={50}
-                    height={50}
-                  />
-                </td>
-                <td>Cola</td>
-                <td>doppelt</td>
-                <td>1</td>
-                <td>1,99</td>
-                <td>
-                  <Button className="btn-sm">❌</Button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <Image
-                    src={"/img/products/pommes.jpg"}
-                    alt="cola"
-                    width={50}
-                    height={50}
-                  />
-                </td>
-                <td>Pommes</td>
-                <td>doppelt</td>
-                <td>1</td>
-                <td>6,99</td>
-                <td>
-                  <Button className="btn-sm">❌</Button>
-                </td>
-              </tr>
+              {warenkorb.map((artikel) => (
+                <tr key={artikel.id}>
+                  <td>
+                    <Image
+                      src={artikel.picture}
+                      alt={artikel.name}
+                      width={50}
+                      height={50}
+                    />
+                  </td>
+                  <td>{artikel.name}</td>
+                  <td>
+                    {artikel.extras && artikel.extras.length > 0 ? (
+                      artikel.extras.map((extra) => (
+                        <p className="m-0" key={extra._id}>
+                          {extra.text}
+                        </p>
+                      ))
+                    ) : (
+                      <p>--</p>
+                    )}
+                  </td>
+
+                  <td>{artikel.menge}</td>
+                  <td>{artikel.preis.toFixed(2)} €</td>
+                  <td>
+                    <Button
+                      className="btn-sm"
+                      onClick={() => {
+                        artikel.isActive = false;
+                        handleRemove();
+                      }}
+                    >
+                      ❌
+                    </Button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </div>
@@ -63,7 +86,7 @@ export default function Warenkorb() {
             <Card>
               <Card.Header as={"h5"}>Gesamt</Card.Header>
               <Card.Body className="text-center">
-                <Card.Title>6,95 EUR</Card.Title>
+                <Card.Title>{gesamtbetrag.toFixed(2)} €</Card.Title>
                 <Button className="w-100" variant="primary">
                   Zur Kasse
                 </Button>
