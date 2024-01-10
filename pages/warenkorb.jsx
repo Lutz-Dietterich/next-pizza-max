@@ -16,10 +16,12 @@ export default function Warenkorb() {
     berechneGesamtbetrag();
   }, [warenkorb, berechneGesamtbetrag]);
 
-  const handleRemove = () => {
-    removeFromCard();
+  const handleRemove = (artikelID) => {
+    removeFromCard(artikelID);
     berechneGesamtbetrag();
   };
+
+  console.log(warenkorb);
 
   return (
     <div className="mt-5">
@@ -69,8 +71,7 @@ export default function Warenkorb() {
                     <Button
                       className="btn-sm"
                       onClick={() => {
-                        artikel.isActive = false;
-                        handleRemove();
+                        handleRemove(artikel._id);
                       }}
                     >
                       ❌

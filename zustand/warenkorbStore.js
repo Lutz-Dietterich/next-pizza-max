@@ -6,12 +6,12 @@ const warenkorbStore = create((set) => ({
 
   addToCart: (produkt) =>
     set((state) => ({
-      warenkorb: [...state.warenkorb, { ...produkt, isActive: true }],
+      warenkorb: [...state.warenkorb, produkt],
     })),
 
-  removeFromCard: () =>
+  removeFromCard: (artikelID) =>
     set((state) => ({
-      warenkorb: state.warenkorb.filter((artikel) => artikel.isActive),
+      warenkorb: state.warenkorb.filter((artikel) => artikel._id !== artikelID),
     })),
 
   berechneGesamtbetrag: () =>

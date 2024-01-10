@@ -21,7 +21,11 @@ export default function ProductList({ produkte }) {
                 </Card.Title>
                 <Card.Text>{produkt.description}</Card.Text>
               </Card.Body>
-              <Button variant="danger">zum Warenkorb</Button>
+              <Link href={`/produkte/${produkt.url}`} passHref>
+                <Button className="w-100" variant="danger">
+                  Bestellen
+                </Button>
+              </Link>
             </StyledCard>
           </div>
         ))}

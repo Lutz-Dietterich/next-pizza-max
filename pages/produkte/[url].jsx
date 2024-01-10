@@ -6,6 +6,7 @@ import Produkt from "@/models/Produkt";
 import produktStore from "@/zustand/produktStore";
 import warenkorbStore from "@/zustand/warenkorbStore";
 import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Produktseite({ produkt }) {
   const {
@@ -52,14 +53,14 @@ export default function Produktseite({ produkt }) {
     addToCart: state.addToCart,
   }));
 
-  console.log(warenkorb);
-
   const handleAddToCart = () => {
+    const _id = uuidv4();
     const produktZumHinzufügen = {
       ...produkt,
       preis: preis,
       extras: extras,
       menge: menge,
+      _id: _id,
     };
 
     addToCart(produktZumHinzufügen);
