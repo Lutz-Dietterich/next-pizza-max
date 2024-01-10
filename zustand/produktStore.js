@@ -1,7 +1,7 @@
 // store.js
 import { create } from "zustand";
 
-const useStore = create((set) => ({
+const produktStore = create((set) => ({
   preis: 0,
   extras: [],
   menge: 1,
@@ -16,4 +16,4 @@ const useStore = create((set) => ({
     }),
 }));
 
-export default useStore;
+export default produktStore;

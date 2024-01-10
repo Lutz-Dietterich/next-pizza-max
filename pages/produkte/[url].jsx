@@ -3,15 +3,11 @@ import Image from "next/image";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import mongodb from "@/utils/mongodb";
 import Produkt from "@/models/Produkt";
-// import { useState } from "react";
-import useStore from "@/store";
+import produktStore from "@/zustand/produktStore";
+import warenkorbStore from "@/zustand/warenkorbStore";
 import { useEffect } from "react";
 
 export default function Produktseite({ produkt }) {
-  // const [preis, setPreis] = useState(produkt?.price);
-  // const [extras, setExtras] = useState([]);
-  // const [menge, setMenge] = useState(1);
-
   const {
     setInitialProduktState,
     preis,
@@ -20,7 +16,7 @@ export default function Produktseite({ produkt }) {
     setExtras,
     menge,
     setMenge,
-  } = useStore((state) => ({
+  } = produktStore((state) => ({
     preis: state.preis,
     extras: state.extras,
     menge: state.menge,
@@ -49,6 +45,24 @@ export default function Produktseite({ produkt }) {
       setPreis(preis - extra.price);
       setExtras(extras.filter((alleExtras) => alleExtras._id !== extra._id));
     }
+  };
+
+  const { addToCart, warenkorb } = warenkorbStore((state) => ({
+    warenkorb: state.warenkorb,
+    addToCart: state.addToCart,
+  }));
+
+  console.log(warenkorb);
+
+  const handleAddToCart = () => {
+    const produktZumHinzufügen = {
+      ...produkt,
+      preis: preis,
+      extras: extras,
+      menge: menge,
+    };
+
+    addToCart(produktZumHinzufügen);
   };
 
   if (!produkt) {
@@ -112,7 +126,9 @@ export default function Produktseite({ produkt }) {
             </ListGroupItem>
             <ListGroupItem>
               <div className="row shadow">
-                <Button variant="danger">zum Warenkorb hinzufügen</Button>
+                <Button variant="danger" onClick={handleAddToCart}>
+                  zum Warenkorb hinzufügen
+                </Button>
               </div>
             </ListGroupItem>
           </ListGroup>
