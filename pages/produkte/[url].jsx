@@ -1,14 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import mongodb from "@/utils/mongodb";
 import Produkt from "@/models/Produkt";
 import produktStore from "@/zustand/produktStore";
 import warenkorbStore from "@/zustand/warenkorbStore";
-import { useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 
 export default function Produktseite({ produkt }) {
+  const router = useRouter();
+
   const {
     setInitialProduktState,
     preis,
@@ -48,8 +51,7 @@ export default function Produktseite({ produkt }) {
     }
   };
 
-  const { addToCart, warenkorb } = warenkorbStore((state) => ({
-    warenkorb: state.warenkorb,
+  const { addToCart } = warenkorbStore((state) => ({
     addToCart: state.addToCart,
   }));
 
@@ -64,6 +66,7 @@ export default function Produktseite({ produkt }) {
     };
 
     addToCart(produktZumHinzufügen);
+    router.push("/warenkorb");
   };
 
   if (!produkt) {
