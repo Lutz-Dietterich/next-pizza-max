@@ -3,15 +3,44 @@ import Image from "next/image";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import mongodb from "@/utils/mongodb";
 import Produkt from "@/models/Produkt";
-import { useState } from "react";
+// import { useState } from "react";
+import useStore from "@/store";
+import { useEffect } from "react";
 
 export default function Produktseite({ produkt }) {
-  const [preis, setPreis] = useState(produkt?.price);
-  const [extras, setExtras] = useState([]);
-  const [menge, setMenge] = useState(1);
+  // const [preis, setPreis] = useState(produkt?.price);
+  // const [extras, setExtras] = useState([]);
+  // const [menge, setMenge] = useState(1);
+
+  const {
+    setInitialProduktState,
+    preis,
+    setPreis,
+    extras,
+    setExtras,
+    menge,
+    setMenge,
+  } = useStore((state) => ({
+    preis: state.preis,
+    extras: state.extras,
+    menge: state.menge,
+    setPreis: state.setPreis,
+    setExtras: state.setExtras,
+    setMenge: state.setMenge,
+    setInitialProduktState: state.setInitialProduktState,
+  }));
+
+  useEffect(() => {
+    if (produkt) {
+      setInitialProduktState({
+        preis: produkt.price,
+        extras: [],
+        menge: 1,
+      });
+    }
+  }, [produkt, setInitialProduktState]);
 
   const addExtra = (e, extra) => {
-    console.log(e.target);
     const checked = e.target.checked;
     if (checked) {
       setPreis(preis + extra.price);
@@ -21,8 +50,6 @@ export default function Produktseite({ produkt }) {
       setExtras(extras.filter((alleExtras) => alleExtras._id !== extra._id));
     }
   };
-
-  console.log(menge);
 
   if (!produkt) {
     return (
