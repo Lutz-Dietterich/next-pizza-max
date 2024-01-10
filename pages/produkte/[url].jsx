@@ -1,10 +1,74 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import mongodb from "@/utils/mongodb";
 import Produkt from "@/models/Produkt";
+import produktStore from "@/zustand/produktStore";
+import warenkorbStore from "@/zustand/warenkorbStore";
+import { useRouter } from "next/router";
 
 export default function Produktseite({ produkt }) {
+  const router = useRouter();
+
+  const {
+    setInitialProduktState,
+    preis,
+    setPreis,
+    extras,
+    setExtras,
+    menge,
+    setMenge,
+  } = produktStore((state) => ({
+    preis: state.preis,
+    extras: state.extras,
+    menge: state.menge,
+    setPreis: state.setPreis,
+    setExtras: state.setExtras,
+    setMenge: state.setMenge,
+    setInitialProduktState: state.setInitialProduktState,
+  }));
+
+  useEffect(() => {
+    if (produkt) {
+      setInitialProduktState({
+        preis: produkt.price,
+        extras: [],
+        menge: 1,
+      });
+    }
+  }, [produkt, setInitialProduktState]);
+
+  const addExtra = (e, extra) => {
+    const checked = e.target.checked;
+    if (checked) {
+      setPreis(preis + extra.price);
+      setExtras([...extras, extra]);
+    } else {
+      setPreis(preis - extra.price);
+      setExtras(extras.filter((alleExtras) => alleExtras._id !== extra._id));
+    }
+  };
+
+  const { addToCart } = warenkorbStore((state) => ({
+    addToCart: state.addToCart,
+  }));
+
+  const handleAddToCart = () => {
+    const _id = uuidv4();
+    const produktZumHinzufügen = {
+      ...produkt,
+      preis: preis,
+      extras: extras,
+      menge: menge,
+      _id: _id,
+    };
+
+    addToCart(produktZumHinzufügen);
+    router.push("/warenkorb");
+  };
+
   if (!produkt) {
     return (
       <>
@@ -37,15 +101,20 @@ export default function Produktseite({ produkt }) {
           <h1 className="ms-3 mb-5">{produkt.name}</h1>
           <ListGroup variant="flush">
             <ListGroupItem>
-              <h2 className="text-danger">{produkt.price} €</h2>
+              <h2 className="text-danger">{preis.toFixed(2)} €</h2>
             </ListGroupItem>
             <ListGroupItem>{produkt.description}</ListGroupItem>
             <ListGroupItem className="mt-2">
               {produkt.extras.length ? "Extras: " : <p></p>} <br />
               {produkt.extras.map((extra) => (
-                <span key={extra.name}>
-                  {extra.text}
-                  <input className="form-check-input mx-2" type="checkbox" />
+                <span key={extra._id}>
+                  {extra.text} {extra.price.toFixed(2)}€
+                  <input
+                    className="form-check-input mx-2"
+                    type="checkbox"
+                    id="extra.text"
+                    onChange={(e) => addExtra(e, extra)}
+                  />
                 </span>
               ))}
             </ListGroupItem>
@@ -53,12 +122,17 @@ export default function Produktseite({ produkt }) {
               <input
                 className="form-control w-50"
                 type="number"
-                placeholder="1"
+                value={menge}
+                min={1}
+                max={100}
+                onChange={(e) => setMenge(e.target.value)}
               ></input>
             </ListGroupItem>
             <ListGroupItem>
               <div className="row shadow">
-                <Button variant="danger">zum Warenkorb hinzufügen</Button>
+                <Button variant="danger" onClick={handleAddToCart}>
+                  zum Warenkorb hinzufügen
+                </Button>
               </div>
             </ListGroupItem>
           </ListGroup>

@@ -1,8 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "react-bootstrap";
+import warenkorbStore from "@/zustand/warenkorbStore";
 
 export default function Navigation() {
+  const warenkorb = warenkorbStore((state) => state.warenkorb);
+
   return (
     <div className="shadow sticky-top px-4 py-2 mb-2 bg-danger">
       <div className="d-flex justify-content-between align-items-center">
@@ -17,7 +20,7 @@ export default function Navigation() {
             height={30}
           />
           <Badge pill bg="success">
-            2
+            {warenkorb.length}
           </Badge>
         </Link>
       </div>
