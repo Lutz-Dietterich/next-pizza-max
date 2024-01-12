@@ -31,6 +31,8 @@ export default function Warenkorb() {
     intent: "capture",
   };
 
+  const style = { layout: "vertical", height: 30 };
+
   const createOrder = (data, actions) => {
     return actions.order.create({
       purchase_units: [
@@ -120,7 +122,7 @@ export default function Warenkorb() {
               <div className="shadow">
                 <Card className="overflow-hidden ">
                   <Card.Header as={"h5"}>Gesamt</Card.Header>
-                  <Card.Body className="text-center mx-auto">
+                  <Card.Body className="text-center">
                     <Card.Title className="mb-4">
                       {gesamtbetrag.toFixed(2)} €
                     </Card.Title>
@@ -137,6 +139,7 @@ export default function Warenkorb() {
                         <PayPalButtons
                           createOrder={createOrder}
                           onApprove={onApprove}
+                          style={style}
                         />
                       </PayPalScriptProvider>
                     )}
