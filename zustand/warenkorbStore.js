@@ -21,6 +21,8 @@ const warenkorbStore = create((set) => ({
       }, 0);
       return { gesamtbetrag };
     }),
+
+  removeAll: () => set(() => ({ warenkorb: [], gesamtbetrag: 0 })),
 }));
 
 export default warenkorbStore;
