@@ -120,7 +120,7 @@ export default function Warenkorb() {
             </div>
             <div className="col-3 p-2">
               <div className="shadow">
-                <Card className="overflow-hidden ">
+                <Card>
                   <Card.Header as={"h5"}>Gesamt</Card.Header>
                   <Card.Body className="text-center">
                     <Card.Title className="mb-4">
