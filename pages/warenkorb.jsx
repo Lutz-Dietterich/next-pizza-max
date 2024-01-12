@@ -1,10 +1,13 @@
 import { Table, CloseButton, Button, Card } from "react-bootstrap";
 import Image from "next/image";
 import warenkorbStore from "@/zustand/warenkorbStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function Warenkorb() {
+  const [kasse, setKasse] = useState(false);
+
   const { warenkorb, gesamtbetrag, berechneGesamtbetrag, removeFromCard } =
     warenkorbStore((state) => ({
       warenkorb: state.warenkorb,
@@ -20,6 +23,32 @@ export default function Warenkorb() {
   const handleRemove = (artikelID) => {
     removeFromCard(artikelID);
     berechneGesamtbetrag();
+  };
+
+  const initialOptions = {
+    clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+    currency: "EUR",
+    intent: "capture",
+  };
+
+  const style = { layout: "vertical", height: 30 };
+
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: gesamtbetrag.toFixed(2), // Der Gesamtbetrag aus Ihrem Warenkorb-Zustand
+          },
+        },
+      ],
+    });
+  };
+
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(function (details) {
+      console.log(details.purchase_units[0].shipping);
+    });
   };
 
   return (
@@ -94,10 +123,26 @@ export default function Warenkorb() {
                 <Card>
                   <Card.Header as={"h5"}>Gesamt</Card.Header>
                   <Card.Body className="text-center">
-                    <Card.Title>{gesamtbetrag.toFixed(2)} €</Card.Title>
-                    <Button className="w-100" variant="primary">
-                      Zur Kasse
-                    </Button>
+                    <Card.Title className="mb-4">
+                      {gesamtbetrag.toFixed(2)} €
+                    </Card.Title>
+                    {!kasse ? (
+                      <Button
+                        onClick={() => setKasse(!kasse)}
+                        className="w-100"
+                        variant="primary"
+                      >
+                        Zur Kasse
+                      </Button>
+                    ) : (
+                      <PayPalScriptProvider options={initialOptions}>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          style={style}
+                        />
+                      </PayPalScriptProvider>
+                    )}
                   </Card.Body>
                 </Card>
               </div>
