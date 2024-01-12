@@ -3,6 +3,7 @@ import Image from "next/image";
 import warenkorbStore from "@/zustand/warenkorbStore";
 import { useEffect } from "react";
 import Link from "next/link";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function Warenkorb() {
   const { warenkorb, gesamtbetrag, berechneGesamtbetrag, removeFromCard } =
@@ -20,6 +21,27 @@ export default function Warenkorb() {
   const handleRemove = (artikelID) => {
     removeFromCard(artikelID);
     berechneGesamtbetrag();
+  };
+
+  const client_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
+
+  console.log(gesamtbetrag);
+  const initialOptions = {
+    clientId: client_ID,
+    currency: "EUR",
+    intent: "capture",
+  };
+
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: gesamtbetrag.toFixed(2), // Der Gesamtbetrag aus Ihrem Warenkorb-Zustand
+          },
+        },
+      ],
+    });
   };
 
   return (
@@ -98,6 +120,9 @@ export default function Warenkorb() {
                     <Button className="w-100" variant="primary">
                       Zur Kasse
                     </Button>
+                    <PayPalScriptProvider options={initialOptions}>
+                      <PayPalButtons createOrder={createOrder} />
+                    </PayPalScriptProvider>
                   </Card.Body>
                 </Card>
               </div>
