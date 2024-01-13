@@ -81,6 +81,11 @@ export default function Warenkorb() {
         betrag: gesamtbetrag,
         status: 0,
         zahlung: 1,
+        produkte: warenkorb.map((artikel) => ({
+          name: artikel.name,
+          menge: artikel.menge,
+          extras: artikel.extras.map((extra) => extra.text),
+        })),
       });
     });
   };
