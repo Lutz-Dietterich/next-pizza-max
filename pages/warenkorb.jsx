@@ -4,17 +4,26 @@ import warenkorbStore from "@/zustand/warenkorbStore";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Warenkorb() {
   const [kasse, setKasse] = useState(false);
+  const router = useRouter();
 
-  const { warenkorb, gesamtbetrag, berechneGesamtbetrag, removeFromCard } =
-    warenkorbStore((state) => ({
-      warenkorb: state.warenkorb,
-      gesamtbetrag: state.gesamtbetrag,
-      berechneGesamtbetrag: state.berechneGesamtbetrag,
-      removeFromCard: state.removeFromCard,
-    }));
+  const {
+    warenkorb,
+    gesamtbetrag,
+    berechneGesamtbetrag,
+    removeFromCard,
+    removeAll,
+  } = warenkorbStore((state) => ({
+    warenkorb: state.warenkorb,
+    gesamtbetrag: state.gesamtbetrag,
+    berechneGesamtbetrag: state.berechneGesamtbetrag,
+    removeFromCard: state.removeFromCard,
+    removeAll: state.removeAll,
+  }));
 
   useEffect(() => {
     berechneGesamtbetrag();
@@ -33,6 +42,21 @@ export default function Warenkorb() {
 
   const style = { layout: "vertical", height: 30 };
 
+  const handleOrder = async (data) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/bestellungen",
+        data
+      );
+      if (res.status === 201) {
+        removeAll();
+        router.push(`/bestellungen/${res.data._id}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const createOrder = (data, actions) => {
     return actions.order.create({
       purchase_units: [
@@ -48,6 +72,16 @@ export default function Warenkorb() {
   const onApprove = (data, actions) => {
     return actions.order.capture().then(function (details) {
       console.log(details.purchase_units[0].shipping);
+
+      const kunde = details.purchase_units[0].shipping;
+      handleOrder({
+        kunde: kunde.name.full_name,
+        adresse:
+          kunde.address.address_line_1 + ", " + kunde.address.admin_area_1,
+        betrag: gesamtbetrag,
+        status: 0,
+        zahlung: 1,
+      });
     });
   };
 
