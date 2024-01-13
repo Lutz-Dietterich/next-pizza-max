@@ -16,14 +16,24 @@ export default async function handler(req, res) {
       res.status(200).json(error);
     }
   }
-}
 
-//   if (method === "PUT") {
-//     try {
-//       const bestellung = await Bestellung.create(req.body);
-//       res.status(201).json(bestellung);
-//     } catch (error) {
-//       res.status(500).json(error);
-//     }
-//   }
-// }
+  if (method === "PUT") {
+    try {
+      const bestellung = await Bestellung.findByIdAndUpdate(nr, req.body, {
+        new: true,
+      });
+      res.status(200).json(bestellung);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
+  if (method === "DELETE") {
+    try {
+      const bestellung = await Bestellung.findByIdAndDelete(nr);
+      res.status(200).json(bestellung);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+}
