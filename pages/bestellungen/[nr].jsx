@@ -7,7 +7,7 @@ export default function Bestellung({ bestellung }) {
   const { nr } = router.query;
 
   let status;
-  switch (bestellung.status) {
+  switch (bestellung?.status) {
     case 0:
       status = "Eingegangen";
       break;
@@ -22,7 +22,7 @@ export default function Bestellung({ bestellung }) {
       break;
   }
 
-  if (nr !== bestellung._id) {
+  if (nr !== bestellung?._id) {
     return (
       <div>
         <h2>Bestellung {nr} nicht vorhanden! </h2>
@@ -65,6 +65,31 @@ export default function Bestellung({ bestellung }) {
                     )}
                   </td>
                 </tr>
+              </tbody>
+            </Table>
+            <Table hover responsive className="mt-5">
+              <thead>
+                <tr>
+                  <th>Produktname</th>
+                  <th>Extras </th>
+                  <th>Menge</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bestellung.produkte.map((produkt) => (
+                  <tr key={produkt._id}>
+                    <td>{produkt.name}</td>
+                    <td>
+                      {produkt.extras.map((extra) => (
+                        <span key={extra._id}>
+                          {extra}
+                          <br />
+                        </span>
+                      ))}
+                    </td>
+                    <td>{produkt.menge}</td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
           </div>

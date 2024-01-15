@@ -77,10 +77,15 @@ export default function Warenkorb() {
       handleOrder({
         kunde: kunde.name.full_name,
         adresse:
-          kunde.address.address_line_1 + ", " + kunde.address.admin_area_1,
+          kunde.address.address_line_1 + ", " + kunde.address.admin_area_2,
         betrag: gesamtbetrag,
         status: 0,
         zahlung: 1,
+        produkte: warenkorb.map((artikel) => ({
+          name: artikel.name,
+          menge: artikel.menge,
+          extras: artikel.extras.map((extra) => extra.text),
+        })),
       });
     });
   };
