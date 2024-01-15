@@ -12,16 +12,24 @@ export default function Navigation() {
         <Link href="/">
           <Image src="/img/logo.png" alt="Logo" width={180} height={75} />
         </Link>
-        <Link href="/warenkorb">
-          <Image
-            src="/img/warenkorb.png"
-            alt="Warenkorb"
-            width={30}
-            height={30}
-          />
-          <Badge pill bg="success">
-            {warenkorb.length}
-          </Badge>
+        <Link href="/warenkorb" className="me-3">
+          <div style={{ position: "relative" }}>
+            <Image
+              src="/img/warenkorb.png"
+              alt="Warenkorb"
+              width={30}
+              height={30}
+            />
+            {warenkorb.length > 0 && (
+              <Badge
+                pill
+                bg="success"
+                style={{ position: "absolute", top: -8, left: -12 }}
+              >
+                {warenkorb.length}
+              </Badge>
+            )}
+          </div>
         </Link>
       </div>
     </div>

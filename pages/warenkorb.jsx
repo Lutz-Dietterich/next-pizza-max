@@ -6,6 +6,7 @@ import Link from "next/link";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 export default function Warenkorb() {
   const [kasse, setKasse] = useState(false);
@@ -29,9 +30,13 @@ export default function Warenkorb() {
     berechneGesamtbetrag();
   }, [warenkorb, berechneGesamtbetrag]);
 
-  const handleRemove = (artikelID) => {
+  const handleRemove = (artikelID, artikelName) => {
     removeFromCard(artikelID);
     berechneGesamtbetrag();
+    toast.error(artikelName + " " + "wurde aus dem Warenkorb entfernt!", {
+      position: "top-center",
+      autoClose: 2000,
+    });
   };
 
   const initialOptions = {
@@ -146,7 +151,7 @@ export default function Warenkorb() {
                         <Button
                           className="btn-sm"
                           onClick={() => {
-                            handleRemove(artikel._id);
+                            handleRemove(artikel._id, artikel.name);
                           }}
                         >
                           ❌
