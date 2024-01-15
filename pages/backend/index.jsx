@@ -78,11 +78,21 @@ export default function Bestellung({ bestellungen }) {
   );
 }
 
-export async function getServerSideProps() {
-  const res = await axios.get(`http://localhost:3000/api/bestellungen`);
-  return {
-    props: {
-      bestellungen: res.data,
-    },
-  };
+export async function getServerSideProps(ctx) {
+  const meinCookie = ctx.req?.cookies || "";
+  if (meinCookie.token !== process.env.TOKEN) {
+    return {
+      redirect: {
+        destination: "/backend/login",
+        permant: false,
+      },
+    };
+  } else {
+    const res = await axios.get(`http://localhost:3000/api/bestellungen`);
+    return {
+      props: {
+        bestellungen: res.data,
+      },
+    };
+  }
 }

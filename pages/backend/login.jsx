@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Form, Button } from "react-bootstrap";
+import axios from "axios";
 
 export default function Login() {
   const [benutzer, setBenutzer] = useState(null);
@@ -9,12 +10,20 @@ export default function Login() {
   const router = useRouter();
 
   const login = async () => {
-    alert("benutzer: " + benutzer + " " + "Passwort: " + passwort);
-    router.push("/backend");
+    try {
+      await axios.post("http://localhost:3000/api/login", {
+        benutzer,
+        passwort,
+      });
+      router.push("/backend");
+    } catch (error) {
+      setError(true);
+    }
   };
 
   return (
-    <div className="card shadow mx-auto mt-5 p-4" style={{ maxWidth: 500 }}>
+    <div className="card shadow-lg mx-auto mt-5 p-4" style={{ maxWidth: 500 }}>
+      {error && <p className="text-danger">Login fehlgeschlagen</p>}
       <h1>Login</h1>
       <Form className="d-flex flex-column mt-4">
         <Form.Group className="mb-3" controlId="benutzer">
@@ -31,7 +40,7 @@ export default function Login() {
             onChange={(e) => setPasswort(e.target.value)}
           />
         </Form.Group>
-        <Button className="" variant="primary" onClick={login}>
+        <Button className="shadow-sm" variant="primary" onClick={login}>
           Login
         </Button>
       </Form>
