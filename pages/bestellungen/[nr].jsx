@@ -7,7 +7,7 @@ export default function Bestellung({ bestellung }) {
   const { nr } = router.query;
 
   let status;
-  switch (bestellung.status) {
+  switch (bestellung?.status) {
     case 0:
       status = "Eingegangen";
       break;
@@ -22,7 +22,7 @@ export default function Bestellung({ bestellung }) {
       break;
   }
 
-  if (nr !== bestellung._id) {
+  if (nr !== bestellung?._id) {
     return (
       <div>
         <h2>Bestellung {nr} nicht vorhanden! </h2>
