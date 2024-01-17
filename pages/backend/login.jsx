@@ -12,7 +12,7 @@ export default function Login() {
   const login = async () => {
     try {
       await axios.post(
-        "https://next-pizza-max-git-main-lutz-dietterich.vercel.app/api/login",
+        "https://next-pizza-max.lutz-dietterich.vercel.app/api/login",
         {
           benutzer,
           passwort,
