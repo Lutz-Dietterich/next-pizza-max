@@ -11,9 +11,12 @@ export default function Bestellung({ bestellungen }) {
   const statusUpdate = async (id, aktuellerstatus) => {
     try {
       if (aktuellerstatus <= 2) {
-        await axios.put(`http://localhost:3000/api/bestellungen/` + id, {
-          status: aktuellerstatus + 1,
-        });
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/bestellungen/` + id,
+          {
+            status: aktuellerstatus + 1,
+          }
+        );
         router.reload();
       }
     } catch (error) {
@@ -23,7 +26,9 @@ export default function Bestellung({ bestellungen }) {
 
   const deleteData = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/bestellungen/` + id);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/bestellungen/` + id
+      );
       router.reload();
     } catch (error) {
       console.log(error);
@@ -88,7 +93,9 @@ export async function getServerSideProps(ctx) {
       },
     };
   } else {
-    const res = await axios.get(`http://localhost:3000/api/bestellungen`);
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/bestellungen`
+    );
     return {
       props: {
         bestellungen: res.data,

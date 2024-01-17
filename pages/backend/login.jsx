@@ -11,7 +11,7 @@ export default function Login() {
 
   const login = async () => {
     try {
-      await axios.post("http://localhost:3000/api/login", {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/login`, {
         benutzer,
         passwort,
       });

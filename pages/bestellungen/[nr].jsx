@@ -120,7 +120,7 @@ export default function Bestellung({ bestellung }) {
 
 export async function getServerSideProps({ params }) {
   const res = await axios.get(
-    `http://localhost:3000/api/bestellungen/${params.nr}`
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/bestellungen/${params.nr}`
   );
   return {
     props: {
