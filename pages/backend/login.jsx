@@ -9,6 +9,8 @@ export default function Login() {
   const [error, setError] = useState(false);
   const router = useRouter();
 
+  console.log(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/login`);
+
   const login = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/login`, {
