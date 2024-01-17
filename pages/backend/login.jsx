@@ -11,13 +11,10 @@ export default function Login() {
 
   const login = async () => {
     try {
-      await axios.post(
-        "https://next-pizza-a3q83fjh5-lutz-dietterich.vercel.app/api/login",
-        {
-          benutzer,
-          passwort,
-        }
-      );
+      await axios.post("@/api/login", {
+        benutzer,
+        passwort,
+      });
       router.push("/backend");
     } catch (error) {
       setError(true);
