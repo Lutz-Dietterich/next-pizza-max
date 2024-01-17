@@ -49,7 +49,10 @@ export default function Warenkorb() {
 
   const handleOrder = async (data) => {
     try {
-      const res = await axios.post("/api/bestellungen", data);
+      const res = await axios.post(
+        "http://localhost:3000/api/bestellungen",
+        data
+      );
       if (res.status === 201) {
         removeAll();
         router.push(`/bestellungen/${res.data._id}`);
