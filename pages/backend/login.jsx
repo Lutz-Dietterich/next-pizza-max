@@ -25,7 +25,13 @@ export default function Login() {
     <div className="card shadow-lg mx-auto mt-5 p-4" style={{ maxWidth: 500 }}>
       {error && <p className="text-danger">Login fehlgeschlagen</p>}
       <h1>Login</h1>
-      <Form className="d-flex flex-column mt-4">
+      <Form
+        className="d-flex flex-column mt-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          login();
+        }}
+      >
         <Form.Group className="mb-3" controlId="benutzer">
           <Form.Control
             type="text"
@@ -40,7 +46,7 @@ export default function Login() {
             onChange={(e) => setPasswort(e.target.value)}
           />
         </Form.Group>
-        <Button className="shadow-sm" variant="primary" onClick={login}>
+        <Button className="shadow-sm" variant="primary" type="submit">
           Login
         </Button>
       </Form>
