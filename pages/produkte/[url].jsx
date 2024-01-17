@@ -8,6 +8,7 @@ import Produkt from "@/models/Produkt";
 import produktStore from "@/zustand/produktStore";
 import warenkorbStore from "@/zustand/warenkorbStore";
 import { useRouter } from "next/router";
+import { motion } from "framer-motion";
 
 export default function Produktseite({ produkt }) {
   const router = useRouter();
@@ -80,7 +81,12 @@ export default function Produktseite({ produkt }) {
   }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: "-100%" }}
+      animate={{ opacity: 1, y: "0" }}
+      transition={{ ease: "easeOut", duration: 0.5 }}
+      exit={{ opacity: 0 }}
+    >
       <div>
         <Link href={"/"} className="text-dark none">
           ← zurück zur Übersicht
@@ -138,7 +144,7 @@ export default function Produktseite({ produkt }) {
           </ListGroup>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 }
 
