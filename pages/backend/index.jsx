@@ -103,14 +103,3 @@ export async function getServerSideProps(ctx) {
     };
   }
 }
-
-// export async function getServerSideProps() {
-//   const res = await axios.get(
-//     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/bestellungen`
-//   );
-//   return {
-//     props: {
-//       bestellungen: res.data,
-//     },
-//   };
-// }
